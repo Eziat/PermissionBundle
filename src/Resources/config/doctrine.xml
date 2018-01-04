@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service id="eziat_permission.permission_manager.default" class="Eziat\PermissionBundle\Manager\Doctrine\PermissionManager" public="false">
+            <argument type="service" id="eziat_permission.object_manager" />
+            <argument>%eziat_permission.model.permission_class%</argument>
+        </service>
+
+        <!-- The factory is configured in the DI extension class to support more Symfony versions -->
+        <service id="eziat_permission.object_manager" class="Doctrine\Common\Persistence\ObjectManager" public="false">
+            <argument>%eziat_permission.model.manager_name%</argument>
+        </service>
+
+    </services>
+
+</container>

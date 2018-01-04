@@ -19,6 +19,22 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder();
         $rootNode    = $treeBuilder->root('eziat_permission');
+        $supportedDrivers = ['orm'];
+        $rootNode
+            ->children()
+                ->scalarNode('db_driver')
+                    ->validate()
+                    ->ifNotInArray($supportedDrivers)
+                        ->thenInvalid('The driver %s is not supported. Please choose one of '.json_encode($supportedDrivers))
+                    ->end()
+                    ->cannotBeOverwritten()
+                    ->isRequired()
+                    ->cannotBeEmpty()
+                ->end()
+                ->scalarNode('object_manager_name')->defaultNull()->end()
+                ->scalarNode('permission_class')->isRequired()->cannotBeEmpty()->end()
+                ->scalarNode('permission_manager_class')->defaultValue('eziat_permission.permission_manager.default')->end()
+            ->end();
 
         return $treeBuilder;
     }
