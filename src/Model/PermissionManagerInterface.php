@@ -32,15 +32,11 @@ interface PermissionManagerInterface
     /**
      * Updates an permission.
      */
-    public function updatePermission(PermissionInterface $permission);
+    public function updatePermission(PermissionInterface $permission, ?bool $andFlush = true);
     /**
      * Deletes an permission.
      */
     public function deletePermission(PermissionInterface $permission);
-    /**
-     * Inserts an permission.
-     */
-    public function insertPermission(PermissionInterface $permission);
     /**
      * Returns the permission's fully qualified class name.
      */

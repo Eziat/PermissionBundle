@@ -54,6 +54,15 @@ class EziatPermissionExtension extends Extension
 
         // Set a PermissionManagerInterface alias.
         $container->setAlias('eziat_permission.permission_manager', new Alias($config['permission_manager_class'], false));
-        $container->setAlias('Eziat\PermissionBundle\Model\PermissionManagerInterface', new Alias('eziat_permission.permission_manager', false));
+        $container->setAlias('Eziat\PermissionBundle\Model\PermissionManagerInterface',
+            new Alias('eziat_permission.permission_manager', false));
+
+        // Set a loader permission.
+        $loader->load('loader.xml');
+        $container->setAlias('Eziat\PermissionBundle\Loader\PermissionLoaderInterface',
+            new Alias('eziat_permission.loader.permission', false));
+
+        // Set permissions array.
+        $container->setParameter('eziat_permission.permissions', $config['permissions']);
     }
 }

@@ -34,6 +34,15 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('object_manager_name')->defaultNull()->end()
                 ->scalarNode('permission_class')->isRequired()->cannotBeEmpty()->end()
                 ->scalarNode('permission_manager_class')->defaultValue('eziat_permission.permission_manager.default')->end()
+
+                ->arrayNode('permissions')
+                    ->prototype('array')
+                        ->children()
+                            ->scalarNode('name')->end()
+                            ->scalarNode('description')->end()
+                        ->end()
+                    ->end()
+                ->end()
             ->end();
 
         return $treeBuilder;

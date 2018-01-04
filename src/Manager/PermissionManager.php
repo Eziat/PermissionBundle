@@ -12,7 +12,6 @@ use Eziat\PermissionBundle\Model\PermissionManagerInterface;
  */
 abstract class PermissionManager implements PermissionManagerInterface
 {
-
     /**
      * Creates an empty permission.
      */

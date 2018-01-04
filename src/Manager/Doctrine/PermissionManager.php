@@ -48,26 +48,20 @@ class PermissionManager extends BasePermissionManager
     /**
      * Updates an permission.
      */
-    public function updatePermission(PermissionInterface $permission)
+    public function updatePermission(PermissionInterface $permission, ?bool $andFlush = true)
     {
-        $this->objectManager->flush();
+        $this->objectManager->persist($permission);
+        if ( $andFlush === true){
+            $this->objectManager->flush();
+        }
     }
 
     /**
      * Deletes an permission.
      */
-    public function deletePermission(PermissionInterface $permission)
+    public function deletePermission(PermissionInterface $permission, ?bool $andFlush = true)
     {
         $this->objectManager->remove($permission);
-        $this->objectManager->flush();
-    }
-
-    /**
-     * Inserts an permission.
-     */
-    public function insertPermission(PermissionInterface $permission)
-    {
-        $this->objectManager->persist($permission);
         $this->objectManager->flush();
     }
 
