@@ -12,7 +12,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * @author Tomas Jakl <tomasjakll@gmail.com>
@@ -30,7 +29,7 @@ class EziatPermissionExtension extends Extension
 
         $config = $processor->processConfiguration($configuration, $configs);
 
-        if ($config['database'] !== null) {
+        if (array_key_exists('database', $config) && $config['database'] !== null) {
             $this->loadDoctrine($config['database'], $container, $loader);
         }
 
@@ -40,7 +39,6 @@ class EziatPermissionExtension extends Extension
 
     private function loadDoctrine(array $config, ContainerBuilder $container, Loader\XmlFileLoader $loader)
     {
-//        VarDumper::dump($config);die;
         // Sets permission class parameter.
         $container->setParameter('eziat_permission.model.permission_class', $config['permission_class']);
 
@@ -54,6 +52,7 @@ class EziatPermissionExtension extends Extension
         // Sets permission manager if does not exist.
         if ($config['permission_manager_class'] === null) {
             $container->setParameter('eziat_permission.permission_manager_class', PermissionManager::class);
+            $config['permission_manager_class'] = PermissionManager::class;
         } else {
             $container->setParameter('eziat_permission.permission_manager_class', $config['permission_manager_class']);
         }

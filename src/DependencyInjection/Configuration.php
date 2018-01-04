@@ -45,7 +45,6 @@ class Configuration implements ConfigurationInterface
         $node
             ->children()
                 ->arrayNode('database')
-                    ->addDefaultsIfNotSet()
                     ->canBeUnset()
                     ->children()
                         ->scalarNode('db_driver')
