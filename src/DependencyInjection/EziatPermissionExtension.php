@@ -29,21 +29,31 @@ class EziatPermissionExtension extends Extension
 
         $config = $processor->processConfiguration($configuration, $configs);
 
+        if ($config['permission_class'] !== null) {
+            $this->loadDoctrine($config, $container, $loader);
+        }
+
+        // Set permissions array.
+        $container->setParameter('eziat_permission.permissions', $config['permissions']);
+    }
+
+    private function loadDoctrine(array $config, ContainerBuilder $container, Loader\XmlFileLoader $loader)
+    {
         // Sets permission class parameter.
         $container->setParameter('eziat_permission.model.permission_class', $config['permission_class']);
 
         // Sets object manager name.
-        if (!array_key_exists('object_manager_name', $config)) {
+        if ( $config['object_manager_name'] === null ) {
             $container->setParameter('eziat_permission.model.manager_name', 'default');
         } else {
             $container->setParameter('eziat_permission.model.manager_name', $config['object_manager_name']);
         }
 
         // Sets permission manager if does not exist.
-        if (array_key_exists('permission_manager_class', $config)) {
-            $container->setParameter('eziat_permission.permission_manager_class', $config['permission_manager_class']);
-        } else {
+        if ( $config['permission_manager_class'] === null) {
             $container->setParameter('eziat_permission.permission_manager_class', PermissionManager::class);
+        } else {
+            $container->setParameter('eziat_permission.permission_manager_class', $config['permission_manager_class']);
         }
 
         // Configure doctrine manager.
@@ -61,8 +71,5 @@ class EziatPermissionExtension extends Extension
         $loader->load('loader.xml');
         $container->setAlias('Eziat\PermissionBundle\Loader\PermissionLoaderInterface',
             new Alias('eziat_permission.loader.permission', false));
-
-        // Set permissions array.
-        $container->setParameter('eziat_permission.permissions', $config['permissions']);
     }
 }

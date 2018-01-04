@@ -32,9 +32,8 @@ class Configuration implements ConfigurationInterface
                     ->cannotBeEmpty()
                 ->end()
                 ->scalarNode('object_manager_name')->defaultNull()->end()
-                ->scalarNode('permission_class')->isRequired()->cannotBeEmpty()->end()
+                ->scalarNode('permission_class')->defaultNull()->end()
                 ->scalarNode('permission_manager_class')->defaultValue('eziat_permission.permission_manager.default')->end()
-
                 ->arrayNode('permissions')
                     ->prototype('array')
                         ->children()
