@@ -12,6 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * @author Tomas Jakl <tomasjakll@gmail.com>
@@ -29,8 +30,8 @@ class EziatPermissionExtension extends Extension
 
         $config = $processor->processConfiguration($configuration, $configs);
 
-        if ($config['permission_class'] !== null) {
-            $this->loadDoctrine($config, $container, $loader);
+        if ($config['database'] !== null) {
+            $this->loadDoctrine($config['database'], $container, $loader);
         }
 
         // Set permissions array.
@@ -39,18 +40,19 @@ class EziatPermissionExtension extends Extension
 
     private function loadDoctrine(array $config, ContainerBuilder $container, Loader\XmlFileLoader $loader)
     {
+//        VarDumper::dump($config);die;
         // Sets permission class parameter.
         $container->setParameter('eziat_permission.model.permission_class', $config['permission_class']);
 
         // Sets object manager name.
-        if ( $config['object_manager_name'] === null ) {
+        if ($config['object_manager_name'] === null) {
             $container->setParameter('eziat_permission.model.manager_name', 'default');
         } else {
             $container->setParameter('eziat_permission.model.manager_name', $config['object_manager_name']);
         }
 
         // Sets permission manager if does not exist.
-        if ( $config['permission_manager_class'] === null) {
+        if ($config['permission_manager_class'] === null) {
             $container->setParameter('eziat_permission.permission_manager_class', PermissionManager::class);
         } else {
             $container->setParameter('eziat_permission.permission_manager_class', $config['permission_manager_class']);
@@ -63,7 +65,8 @@ class EziatPermissionExtension extends Extension
         $definition->setFactory([new Reference('eziat_permission.doctrine_registry'), 'getManager']);
 
         // Set a PermissionManagerInterface alias.
-        $container->setAlias('eziat_permission.permission_manager', new Alias($config['permission_manager_class'], false));
+        $container->setAlias('eziat_permission.permission_manager',
+            new Alias($config['permission_manager_class'], false));
         $container->setAlias('Eziat\PermissionBundle\Model\PermissionManagerInterface',
             new Alias('eziat_permission.permission_manager', false));
 

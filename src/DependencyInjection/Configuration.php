@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Eziat\PermissionBundle\DependencyInjection;
 
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -19,21 +20,9 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder();
         $rootNode    = $treeBuilder->root('eziat_permission');
-        $supportedDrivers = ['orm'];
+
         $rootNode
             ->children()
-                ->scalarNode('db_driver')
-                    ->validate()
-                    ->ifNotInArray($supportedDrivers)
-                        ->thenInvalid('The driver %s is not supported. Please choose one of '.json_encode($supportedDrivers))
-                    ->end()
-                    ->cannotBeOverwritten()
-                    ->isRequired()
-                    ->cannotBeEmpty()
-                ->end()
-                ->scalarNode('object_manager_name')->defaultNull()->end()
-                ->scalarNode('permission_class')->defaultNull()->end()
-                ->scalarNode('permission_manager_class')->defaultValue('eziat_permission.permission_manager.default')->end()
                 ->arrayNode('permissions')
                     ->prototype('array')
                         ->children()
@@ -44,6 +33,35 @@ class Configuration implements ConfigurationInterface
                 ->end()
             ->end();
 
+        $this->addDoctrineSection($rootNode);
+
         return $treeBuilder;
+    }
+
+    private function addDoctrineSection(ArrayNodeDefinition $node)
+    {
+        $supportedDrivers = ['orm'];
+
+        $node
+            ->children()
+                ->arrayNode('database')
+                    ->addDefaultsIfNotSet()
+                    ->canBeUnset()
+                    ->children()
+                        ->scalarNode('db_driver')
+                            ->validate()
+                                ->ifNotInArray($supportedDrivers)
+                                ->thenInvalid('The driver %s is not supported. Please choose one of '.json_encode($supportedDrivers))
+                            ->end()
+                            ->cannotBeOverwritten()
+                            ->isRequired()
+                            ->cannotBeEmpty()
+                        ->end()
+                        ->scalarNode('object_manager_name')->defaultNull()->end()
+                        ->scalarNode('permission_class')->isRequired()->cannotBeEmpty()->end()
+                        ->scalarNode('permission_manager_class')->defaultValue('eziat_permission.permission_manager.default')->end()
+                    ->end()
+                ->end()
+            ->end();
     }
 }
