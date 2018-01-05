@@ -47,7 +47,7 @@ class PermissionLoader implements PermissionLoaderInterface
             }
         }
         if ( $persistedPermission !== null ){
-            $this->permissionManager->updatePermission($newPermission);
+            $this->permissionManager->updatePermission($persistedPermission);
         }
     }
 }
