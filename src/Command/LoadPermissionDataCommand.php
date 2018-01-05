@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Taize\BaseBundle\Command;
+namespace Eziat\PermissionBundle\Command;
 
 use Eziat\PermissionBundle\Loader\PermissionLoaderInterface;
 use Symfony\Component\Console\Command\Command;
