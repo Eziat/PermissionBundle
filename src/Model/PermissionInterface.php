@@ -11,11 +11,11 @@ interface PermissionInterface
 {
     public function getId();
 
-    public function setName(string $name) : self;
+    public function setName(string $name) : PermissionInterface;
 
     public function getName() : string;
 
-    public function setDescription(string $description) : self;
+    public function setDescription(string $description) : PermissionInterface;
 
     public function getDescription() : string;
 }
