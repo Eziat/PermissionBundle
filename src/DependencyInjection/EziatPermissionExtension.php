@@ -29,11 +29,11 @@ class EziatPermissionExtension extends Extension
 
         $config = $processor->processConfiguration($configuration, $configs);
 
-        if (array_key_exists('database', $config) && $config['database'] !== null) {
+        if (!empty($config['database'])) {
             $this->loadDoctrine($config['database'], $container, $loader);
         }
 
-        if (array_key_exists('cache', $config) && $config['cache'] !== null) {
+        if (!empty($config['cache'])) {
             $this->loadCachedUserManager($config['cache'], $container, $loader);
         } else {
             $this->loadBasicUserManager($container, $loader);
