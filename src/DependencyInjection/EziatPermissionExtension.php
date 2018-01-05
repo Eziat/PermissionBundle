@@ -47,7 +47,7 @@ class EziatPermissionExtension extends Extension
     {
         $loader->load('user_manager.xml');
         $container->setAlias('Eziat\PermissionBundle\Model\UserManagerInterface',
-            new Alias('eziat_permission.manager.user', false));
+            new Alias('eziat_permission.manager.user', true));
     }
 
     private function loadCachedUserManager(array $config, ContainerBuilder $container, Loader\XmlFileLoader $loader)
@@ -61,7 +61,7 @@ class EziatPermissionExtension extends Extension
 
         $loader->load('cached_user_manager.xml');
         $container->setAlias('Eziat\PermissionBundle\Model\UserManagerInterface',
-            new Alias('eziat_permission.manager.cached_user', false));
+            new Alias('eziat_permission.manager.cached_user', true));
     }
 
     private function loadDoctrine(array $config, ContainerBuilder $container, Loader\XmlFileLoader $loader)

@@ -6,7 +6,7 @@
     <services>
 
         <service id="eziat_permission.manager.user"
-                 class="Eziat\PermissionBundle\Manager\UserManager" public="false">
+                 class="Eziat\PermissionBundle\Manager\UserManager" public="true">
         </service>
 
     </services>

@@ -11,7 +11,7 @@
         </service>
 
         <service id="eziat_permission.manager.cached_user"
-                 class="Eziat\PermissionBundle\Manager\CachedUserManager" public="false">
+                 class="Eziat\PermissionBundle\Manager\CachedUserManager" public="true">
             <argument type="service" id="eziat_permission.helper.cache"/>
             <argument>%eziat_permission.cache.prefix%</argument>
         </service>
