@@ -7,8 +7,6 @@
 
         <service id="eziat_permission.manager.user"
                  class="Eziat\PermissionBundle\Manager\UserManager" public="false">
-            <argument type="service"
-                      id="Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface"/>
         </service>
 
     </services>

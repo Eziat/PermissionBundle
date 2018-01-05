@@ -12,7 +12,7 @@ interface UserManagerInterface
     /**
      * Gets all permissions from user. If it isn't cached it will add a new entry.
      */
-    public function getPermissions(UserPermissionInterface $user = null) : array;
+    public function getPermissions(UserPermissionInterface $user) : array;
 
     /**
      * Has the given user the given permissions.

@@ -25,9 +25,8 @@ class CachedUserManager extends UserManagerAbstract implements UserManagerInterf
      */
     private $cachePrefix;
 
-    public function __construct(CacheHelperInterface $cacheHelper, TokenStorageInterface $tokenStorage, string $cachePrefix )
+    public function __construct(CacheHelperInterface $cacheHelper, string $cachePrefix )
     {
-        parent::__construct($tokenStorage);
         $this->cacheHelper = $cacheHelper;
         $this->cachePrefix = $cachePrefix;
     }
@@ -37,13 +36,6 @@ class CachedUserManager extends UserManagerAbstract implements UserManagerInterf
      */
     public function getPermissions(UserPermissionInterface $user = null) : array
     {
-        $permissions = [];
-        $user        = $user !== null ?: $this->getLoggedInUser();
-
-        if ($user === null) {
-            return $permissions;
-        }
-
         $cacheID = $this->cachePrefix.$user->getId();
         $permissions = $this->cacheHelper->get($cacheID);
         if ($permissions === null) {

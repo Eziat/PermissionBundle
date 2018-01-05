@@ -14,19 +14,13 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  */
 class UserManager extends UserManagerAbstract implements UserManagerInterface
 {
-    public function __construct(TokenStorageInterface $tokenStorage)
-    {
-        parent::__construct($tokenStorage);
-    }
-
     /**
      * {@inheritdoc}
      */
-    public function getPermissions(UserPermissionInterface $user = null) : array
+    public function getPermissions(UserPermissionInterface $user) : array
     {
         return $this->getUserPermissions($user);
     }
-
 
     /**
      * {@inheritdoc}
