@@ -100,5 +100,6 @@ class EziatPermissionExtension extends Extension
         $loader->load('loader.xml');
         $container->setAlias('Eziat\PermissionBundle\Loader\PermissionLoaderInterface',
             new Alias('eziat_permission.loader.permission', false));
+        $loader->load('command.xml');
     }
 }
