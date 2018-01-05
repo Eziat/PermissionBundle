@@ -1,5 +1,6 @@
 {
   "name": "eziat/permission-bundle",
+  "description": "Provides a simple layer to store permissions.",
   "type": "symfony-bundle",
   "license": "MIT",
   "keywords": [
