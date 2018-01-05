@@ -33,8 +33,35 @@ class EziatPermissionExtension extends Extension
             $this->loadDoctrine($config['database'], $container, $loader);
         }
 
+        if (array_key_exists('cache', $config) && $config['cache'] !== null) {
+            $this->loadCachedUserManager($config['cache'], $container, $loader);
+        } else {
+            $this->loadBasicUserManager($container, $loader);
+        }
+
         // Set permissions array.
         $container->setParameter('eziat_permission.permissions', $config['permissions']);
+    }
+
+    private function loadBasicUserManager(ContainerBuilder $container, Loader\XmlFileLoader $loader)
+    {
+        $loader->load('user_manager.xml');
+        $container->setAlias('Eziat\PermissionBundle\Model\UserManagerInterface',
+            new Alias('eziat_permission.manager.user', false));
+    }
+
+    private function loadCachedUserManager(array $config, ContainerBuilder $container, Loader\XmlFileLoader $loader)
+    {
+        // Sets a correct cache adapter.
+        $container->setAlias('eziat_permission.cache_adapter', new Alias('cache.app', false));
+        // Sets a cache prefix.
+        $container->setParameter('eziat_permission.cache.prefix', $config['cache_prefix']);
+        // Sets cache expire parameter.
+        $container->setParameter('eziat_permission.cache.expire_at', $config['expires_at']);
+
+        $loader->load('cached_user_manager.xml');
+        $container->setAlias('Eziat\PermissionBundle\Model\UserManagerInterface',
+            new Alias('eziat_permission.manager.cached_user', false));
     }
 
     private function loadDoctrine(array $config, ContainerBuilder $container, Loader\XmlFileLoader $loader)

@@ -1,0 +1,77 @@
+<?php
+
+declare(strict_types = 1);
+
+namespace Eziat\PermissionBundle\Model;
+
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+
+/**
+ * @author Tomas Jakl <tomasjakll@gmail.com>
+ */
+abstract class UserManagerAbstract implements UserManagerInterface
+{
+    /**
+     * @var TokenStorageInterface
+     */
+    protected $tokenStorage;
+
+    public function __construct(TokenStorageInterface $tokenStorage)
+    {
+        $this->tokenStorage = $tokenStorage;
+    }
+
+    /**
+     * Gets the logged in user from any place of the code.
+     * returns null if no user is logged in.
+     */
+    protected function getLoggedInUser() : ?UserPermissionInterface
+    {
+        $tokenUser = $this->tokenStorage->getToken()->getUser();
+        if ($tokenUser == "anon.") {
+            return null;
+        } else {
+            return $tokenUser;
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasPermissions(UserPermissionInterface $user, array $permissions) : bool
+    {
+        $userPermissions = $this->getPermissions($user);
+
+        foreach ($permissions as $permission) {
+            if (!in_array($permission, $userPermissions)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasPermission(UserPermissionInterface $user, $permission) : bool
+    {
+        return $this->hasPermission($user, [$permission]);
+    }
+
+    protected function getUserPermissions(?UserPermissionInterface $user = null) : array
+    {
+        $permissions = [];
+        $user        = $user !== null ? $user : $this->getLoggedInUser();
+
+        if ($user === null) {
+            return $permissions;
+        }
+
+        foreach ($user->getPermissions() as $permission) {
+            $permissions[] = $permission->getName();
+        }
+
+        return $permissions;
+    }
+}

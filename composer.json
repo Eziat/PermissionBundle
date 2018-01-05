@@ -27,6 +27,7 @@
     "symfony/security-bundle": "^3.4|^4.0",
     "symfony/framework-bundle": "^3.4|^4.0",
     "symfony/phpunit-bridge": "^3.4|^4.0",
+    "symfony/cache": "^3.4|^4.0",
     "symfony/yaml": "^2.8 || ^3.0 || ^4.0",
     "phpunit/phpunit": "^6.5"
   },

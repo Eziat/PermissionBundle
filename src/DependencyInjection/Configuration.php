@@ -34,10 +34,31 @@ class Configuration implements ConfigurationInterface
             ->end();
 
         $this->addDoctrineSection($rootNode);
+        $this->addCachedUserManagerSection($rootNode);
 
         return $treeBuilder;
     }
 
+    private function addCachedUserManagerSection(ArrayNodeDefinition $node)
+    {
+        $node
+            ->children()
+                ->arrayNode('cache')
+                ->canBeUnset()
+                    ->children()
+                        ->scalarNode('cache_prefix')
+                            ->isRequired()
+                            ->defaultValue('eziat_permission.user.permissions.')
+                            ->cannotBeEmpty()
+                        ->end()
+                        ->integerNode('expires_at')
+                            ->isRequired()
+                            ->defaultValue(86400)
+                        ->end()
+                    ->end()
+                ->end()
+            ->end();
+    }
     private function addDoctrineSection(ArrayNodeDefinition $node)
     {
         $supportedDrivers = ['orm'];
