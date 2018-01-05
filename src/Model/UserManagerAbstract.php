@@ -35,6 +35,7 @@ abstract class UserManagerAbstract implements UserManagerInterface
 
     protected function getUserPermissions(UserPermissionInterface $user) : array
     {
+        $permissions = [];
         foreach ($user->getPermissions() as $permission) {
             $permissions[] = $permission->getName();
         }

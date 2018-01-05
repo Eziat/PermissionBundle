@@ -34,7 +34,7 @@ class CachedUserManager extends UserManagerAbstract implements UserManagerInterf
     /**
      * {@inheritdoc}
      */
-    public function getPermissions(UserPermissionInterface $user = null) : array
+    public function getPermissions(UserPermissionInterface $user) : array
     {
         $cacheID = $this->cachePrefix.$user->getId();
         $permissions = $this->cacheHelper->get($cacheID);
