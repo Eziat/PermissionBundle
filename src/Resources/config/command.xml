@@ -5,7 +5,7 @@
 
     <services>
 
-        <service class="Eziat\PermissionBundle\Command\LoadPermissionDataCommand" public="false">
+        <service id="Eziat\PermissionBundle\Command\LoadPermissionDataCommand" public="false">
             <argument type="service" id="Eziat\PermissionBundle\Loader\PermissionLoaderInterface" />
             <tag name="console.command"/>
         </service>
