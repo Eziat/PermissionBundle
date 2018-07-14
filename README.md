@@ -7,8 +7,6 @@ Permission bundle provides a flexible way to control access decisions.
 Basically it make sense to use it if you need to have something more
 flexible than roles but less complex than acl definitions.
 
-Note: This bundle doesn't provide an authorization layer. 
-
 Installation
 ------------
 
@@ -36,16 +34,16 @@ This is done automatically if you use flex.
 * Required if you want to store permissions in the database as an additional table.
 ```php
 <?php
-// src/AppBundle/Entity/User.php
+// src/Entity/Permission.php
 
-namespace AppBundle\Entity;
+namespace App\Entity;
 
 use Eziat\PermissionBundle\Entity\Permission as BasePermission;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="fos_user")
+ * @ORM\Table(name="permission")
  */
 class Permission extends BasePermission
 {
@@ -73,7 +71,7 @@ There are two methods to implement:
 
 ```php
 <?php
-// src/App/Entity/User.php
+// src/Entity/User.php
 
 namespace App\Entity;
 
@@ -113,6 +111,6 @@ class User implements UserPermissionInterface
 eziat_permission:
     database:
         db_driver: orm
-        permission_class: Taize\BaseBundle\Entity\Permission
+        permission_class: App\Entity\Permission
     cache: ~
 ```
