@@ -30,7 +30,7 @@ abstract class UserManagerAbstract implements UserManagerInterface
      */
     public function hasPermission(UserPermissionInterface $user, $permission) : bool
     {
-        return $this->hasPermission($user, [$permission]);
+        return $this->hasPermissions($user, [$permission]);
     }
 
     protected function getUserPermissions(UserPermissionInterface $user) : array
